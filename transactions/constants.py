@@ -1,0 +1,12 @@
+DEPOSIT = 1
+WITHDRAWAL = 2
+BETRED = 3
+BETGREEN = 4   
+
+TRANSACTION_TYPE_CHOICES = (
+    (DEPOSIT, 'Deposit'),
+    (WITHDRAWAL, 'Withdrawal'),
+    (BETRED, 'BetRED'),
+    (BETGREEN, 'BetGREEN'),
+)
+

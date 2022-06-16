@@ -1,0 +1,29 @@
+<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+
+
+{% block content %}
+<h1 class="font-mono font-bold text-3xl text-center pb-5 pt-10">{{ title }}</h1>
+<hr />
+<div class="w-full mt-5">
+    <form method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        {% csrf_token %}
+
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="amount">
+                Amount
+            </label>
+        </div>
+        {% if form.amount.errors %}
+            {% for error in form.amount.errors %}
+                <p class="text-red-600 text-sm italic pb-2">{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+            Submit
+        </button>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+{% endblock %}

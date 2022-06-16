@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title>wallet address </title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sign-in/">
+
+    
+
+    <!-- Bootstrap core CSS -->
+<link href="https://getbootstrap.com/docs/5.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <!-- Favicons -->
+<link rel="apple-touch-icon" href="https://photo20.ir/images/1n80nequtktsskm7ekw.png" sizes="180x180">
+<link rel="icon" href="https://photo20.ir/images/1n80nequtktsskm7ekw.png" sizes="32x32" type="image/png">
+<link rel="icon" href="https://photo20.ir/images/1n80nequtktsskm7ekw.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="https://getbootstrap.com/docs/5.1/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="https://photo20.ir/images/1n80nequtktsskm7ekw.png" color="#7952b3">
+<link rel="icon" href="https://photo20.ir/images/1n80nequtktsskm7ekw.png">
+<meta name="theme-color" content="#7952b3">
+
+
+<style>
+  .bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+</style>
+
+
+<!-- Custom styles for this template -->
+<style>
+
+body {
+align-items: center;
+padding-top: 40px;
+padding-bottom: 40px;
+background-color: #f5f5f5;
+color: #20d90b;
+font-weight: bold;
+}
+
+.form-signin {
+width: 100%;
+max-width: 650px;
+padding: 15px;
+margin: auto;
+}
+
+.form-signin .checkbox {
+font-weight: 400;
+}
+
+.form-signin .form-floating:focus-within {
+z-index: 2;
+}
+
+.form-signin input[type="email"] {
+margin-bottom: -1px;
+border-bottom-right-radius: 0;
+border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+margin-bottom: 10px;
+border-top-left-radius: 0;
+border-top-right-radius: 0;
+}
+body { 
+background: url(http://photo20.ir/images/or0wkmlu3fplhwzdrna.png) no-repeat center center fixed; 
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+}
+p.lead {
+font-weight:normal
+}
+ul.errorlist {
+color: #f11313;
+}
+label {
+color: #f8f6f6;
+}
+
+
+
+    </style>
+
+
+  </head>
+  <body class="text-center">
+
+    	<!--Contact form-->
+	<div style="margin:20%">
+		<h1 style="color: #f8f6f6; ">set your wallet address for withdrawal</h1>
+		<h4 style="color: #f8f6f6; ">Contact us directly if you have any questions thorough contact us section</h4>
+		<p style="color: #f8f6f6; ">
+			
+			 
+		</p>
+    {% if messages %}
+     {% for message in messages %} 
+      {{message}}
+     {% endfor %} 
+    {% endif %}      
+
+		<form method="post">
+        {% csrf_token %}
+
+
+      
+
+
+      
+
+        
+        <div class="form-floating">
+            <input type="" class="form-control" name="walletaddress" placeholder="walletaddress">
+            <label style="color: black;" for="floatingInput">Walletaddress</label>
+          </div>
+
+          <br>
+
+      
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+              <button type="submit" class="btn btn-primary btn-lg px-4 me-md-2">SET/CHANGE</button>
+              <br>
+
+              <a href=" {% url 'profile' %}"><button type="button" class="btn btn-outline-secondary btn-lg px-4">Back to MyProfile</button></a>
+<br>
+
+              <a href=" {% url 'home' %}"><button type="button" class="btn btn-outline-secondary btn-lg px-4">Homepage</button></a>
+            </div>
+
+        </form>
+    </div>
+    
+  </body>
+</html>
