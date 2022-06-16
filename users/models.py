@@ -14,7 +14,6 @@ class UserBankAccount(models.Model):
         on_delete=models.CASCADE,
     )
 
-    account_no = models.PositiveIntegerField(null=True)
     balance = models.DecimalField(
         default=0,
         max_digits=12,

@@ -172,7 +172,7 @@ def e_bet(sender, instance, created, **kwargs):
     redcount = RedMember.objects.all().count()
     greencount = GreenMember.objects.all().count()
     prize = Pot.objects.get(id=1).pot
-    sarsh = User.objects.get(id=1)
+    sarsh = User.objects.get(id=3)
 
 
     if created:
