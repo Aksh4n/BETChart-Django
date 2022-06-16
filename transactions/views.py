@@ -147,8 +147,8 @@ class TransactionCreateMixinBet(LoginRequiredMixin, CreateView):
         context.update({
             'title': self.title ,
             'data' : j  ,
-            'type': GreenMember.objects.filter(g=0).exclude(account_id=3) ,
-            'type1': RedMember.objects.filter(g=0).exclude(account_id=3) ,
+            'type': GreenMember.objects.filter(g=0).exclude(account_id=1) ,
+            'type1': RedMember.objects.filter(g=0).exclude(account_id=1) ,
 
             
         })
