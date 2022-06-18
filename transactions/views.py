@@ -143,12 +143,17 @@ class TransactionCreateMixinBet(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         j =  Pot.objects.get(id=1).pot - 5
+        redcount = RedMember.objects.all().count() - 1
+        greencount = GreenMember.objects.all().count() - 1
+
         context = super().get_context_data(**kwargs)
         context.update({
             'title': self.title ,
             'data' : j  ,
             'type': GreenMember.objects.filter(g=0).exclude(account_id=1) ,
             'type1': RedMember.objects.filter(g=0).exclude(account_id=1) ,
+            'greencount': greencount  ,
+            'redcount': redcount  ,
 
             
         })

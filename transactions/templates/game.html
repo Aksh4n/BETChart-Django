@@ -88,42 +88,15 @@
 
 <header>
 
-  <!-- modal bet accept template -->
-
-  <div id="betred" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Place 1$ bet..</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>please submit your bet</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Submit!</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
 
     <div class="px-3 py-2 bg-black text-white">
       <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-          <a  class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-              Your Ballance:{{user.account.balance}}            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-dollar" viewBox="0 0 16 16">
-                <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718H4zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73l.348.086z"/>
-              </svg>
-
-          </a>
 
           <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
             <li>
-              <a href=" {% url 'home' %}" class="nav-link text-secondary">
+              <a href=" {% url 'home' %}" class="nav-link text-white ">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
                     <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
                   </svg>
@@ -181,11 +154,14 @@
 <main>
 <div class="container py-4">
   <header class="pb-3 mb-4 border-bottom">
-    <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+    <a class=" align-items-center text-dark text-decoration-none">
         <svg class="bd-placeholder-img" width="25px" height="25px" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/><image xlink:href="https://photo20.ir/images/ov4f7l1ywseqtryvikyl.jpeg"
             x="0" y="0" height="100%" width="100%"  preserveAspectRatio="none"/></svg>
   
-      <span class="fs-4">live tradingview chart</span>
+      <span style="font-weight: bold;font-size: large;" >Ballance:{{user.account.balance}}$</span>      <span  style="font-weight: bold;background-color: rgba(184, 135, 11, 0.403); font-size: large; float: right;" >TotalPOT:{{ data }}$</span>
+ 
+
+
     </a>
   </header>
 
@@ -230,10 +206,13 @@
       }
       div.jafarii {
           background-color: green;
+          
       }
       div.bet {
           
           padding-top: 50px;
+          
+          
           
       }
       div.info {
@@ -254,16 +233,13 @@
 {% endif %}
 
 
-  <div class=" bet row align-items-md-stretch">
-    <div class=" jafariiii col-md-6">
-      <div class=" jafari h-100 p-5 text-white  border rounded-3">
-        <button style="font-weight: bold;" class="btn btn-outline-light" type="button" data-toggle="modal" data-target="#exampleModal">Place bet RED</button>
-        <p>
-           
-        </p>
-        <p>by clicking the below button you WILL place a 5$ bet on current candle to be close on red color</p>
+  <div class=" bet ">
+      <div style=" width: 50%; float: right;" >
+        <div class=" jafarii h-100 p-5 text-white  border rounded-3">
+          <button style="font-weight: bold; width: 100%;" class="btn btn-outline-light" type="button" data-toggle="modal" data-target="#exampleModal2">bet GREEN</button>
+        </div>
       </div>
-      </div>
+  
     
 
 <!-- Modal -->
@@ -283,6 +259,7 @@
               <label style="font-weight:bold ;" class="block text-gray-700 text-sm font-bold mb-2" for="amount">
                   Amount : 5$
               </label>
+              <p>by click on submit button you,re palcing a bet on current candle to be close on red color </p>
           </div>
           {% if form.amount.errors %}
               {% for error in form.amount.errors %}
@@ -304,16 +281,12 @@
   </div>
 </div>  
     
-    <div class="col-md-6">
-      <div class=" jafarii h-100 p-5 text-white  border rounded-3">
-        <button style="font-weight: bold;" class="btn btn-outline-light" type="button" data-toggle="modal" data-target="#exampleModal2">Place bet GREEN</button>
-        <p>
-           
-        </p>
-        <p>by clicking the below button you WILL place a 5$ bet on current candle to be close on green color</p>
-      </div>
-    </div>
+<div style="width: 50%;">
+  <div class=" jafari h-100 p-5 text-white  border rounded-3">
+    <button style="font-weight: bold; width: 100%;" class="btn btn-outline-light" type="button" data-toggle="modal" data-target="#exampleModal">bet RED</button>
   </div>
+  </div>
+</div>
 
 
 
@@ -338,6 +311,8 @@
                 <label style="font-weight:bold ;" class="block text-gray-700 text-sm font-bold mb-2" for="amount">
                     Amount : 5$
                 </label>
+                <p>by click on submit button you,re palcing a bet on current candle to be close on green color </p>
+
             </div>
             {% if form.amount.errors %}
                 {% for error in form.amount.errors %}
@@ -357,36 +332,64 @@
       </div>
     </div>
   </div>  
+
+  <Script>
+    function countdown(element, minutes, seconds) {
+// set time for the particular countdown
+var time = minutes*60 + seconds;
+var interval = setInterval(function() {
+    var el = document.getElementById('element');
+    // if the time is 0 then end the counter
+    if(time == 0) {
+        setTimeout(function() {
+            el.innerHTML = "Move on to next candle...";
+        }, 10);
+
+
+        clearInterval(interval);
+
+        setTimeout(function() {
+            countdown('clock', 0, 180);
+        }, 2000);
+    }
+    var minutes = Math.floor( time / 60 );
+    if (minutes < 10) minutes = "0" + minutes;
+    var seconds = time % 60;
+    if (seconds < 10) seconds = "0" + seconds; 
+    var text = minutes + ':' + seconds;
+    el.innerHTML = text;
+    time--;
+}, 1000);
+}
+countdown('clock', 0, 180);
+    </script>
   
-  <div class="b-example-divider"></div>
+  <div style="align-items:center ;display: flex; justify-content: center; font-weight: bold; font-size: x-large; background-color:black;" ><h3 style="color: white;">candle ends in : </h3>  &nbsp; <p style=" color:rgb(255, 255, 255); margin-top: 10px;" id="element"> elelelelel</p></div>
 
 
-  <div class="row align-items-md-stretch">
-    <div class="col-md-6">
-      <div class="h-100 p-5 text-white bg-dark rounded-3">
-        <h2>TOTAL POT INFO: {{ data }} $</h2>
-        <p></p>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="h-100 p-5 bg-light border rounded-3">
-        <h3 style="color:rgb(2, 107, 2) ;">Greeners : <font style="color:rgb(214, 21, 21) ; float: right;">Reds :</font></h3>
-
-
-
-
+    <div style=" width: 50%; float: right; ">
+      <div style="background-color:rgba(255, 217, 0, 0.48) ; height: 100%;"  class="h-100 p-5  border rounded-3">
+        <h2 style="font-weight:bold ; font-size: large; color: green;">Greens: {{ greencount }} </h2>
         {% for user in type %}
         <p style="color:green ;"> {{ user.account }}</p>
         {% endfor %}
-     
 
-        {% for user in type1 %}
-        <p style="color:rgb(231, 0, 12) ;text-align: right;"> {{ user.account }}</p>
-        {% endfor %}
 
       </div>
     </div>
-  </div>
+    <div style=" width: 50%;">
+      <div style="background-color: rgba(238, 130, 238, 0.498) ; height: 100%;  " class="h-100 p-5   rounded-3">
+        <h2 style="font-weight:bold ; font-size: large; color:red;">Reds: {{ redcount }} </h2>
+
+
+        {% for user in type1 %}
+        <p style="color:rgb(231, 0, 12) ;"> {{ user.account }}</p>
+        {% endfor %}
+
+
+      </div>
+    </div>
+
 
 
   <footer class="pt-3 mt-4 text-muted border-top">
