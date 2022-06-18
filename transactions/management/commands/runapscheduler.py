@@ -2,9 +2,11 @@ import logging
 
 from django.conf import settings
 
-from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.blocking import BlockingScheduler 
+from apscheduler.schedulers.background import BackgroundScheduler 
+
 from apscheduler.triggers.cron import CronTrigger
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand 
 from django_apscheduler.jobstores import DjangoJobStore
 from django_apscheduler.models import DjangoJobExecution
 from django_apscheduler import util
@@ -60,6 +62,7 @@ def my_job():
 
 
 
+
 # The `close_old_connections` decorator ensures that database connections, that have become
 # unusable or are obsolete, are closed before and after your job has run. You should use it
 # to wrap any jobs that you schedule that access the Django database in any way. 
@@ -80,7 +83,7 @@ class Command(BaseCommand):
   help = "Runs APScheduler."
 
   def handle(self, *args, **options):
-    scheduler = BlockingScheduler(timezone=settings.TIME_ZONE)
+    scheduler = BackgroundScheduler(timezone=settings.TIME_ZONE)
     scheduler.add_jobstore(DjangoJobStore(), "default")
 
     scheduler.add_job(
@@ -123,3 +126,6 @@ class Command(BaseCommand):
       logger.info("Stopping scheduler...")
       scheduler.shutdown()
       logger.info("Scheduler shut down successfully!")
+
+
+

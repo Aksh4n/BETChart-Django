@@ -203,3 +203,6 @@ def e_bet(sender, instance, created, **kwargs):
 
         
 post_save.connect(e_bet, sender=CandleColor)
+
+
+

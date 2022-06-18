@@ -170,4 +170,5 @@ MINIMUM_DEPOSIT_AMOUNT = 10
 MINIMUM_WITHDRAWAL_AMOUNT = 10
 
 
+
 django_heroku.settings(locals())
