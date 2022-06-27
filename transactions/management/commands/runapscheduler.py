@@ -15,6 +15,8 @@ from transactions.models import  CurrentPrice , CandleColor
 
 logger = logging.getLogger(__name__)
 
+# import the time module
+
 
 def candle_color():
 
@@ -22,7 +24,7 @@ def candle_color():
   import time
 
   p1 = float(CurrentPrice.objects.get(id=1).price)
-  time.sleep(177)
+  time.sleep(179)
   p2 = float(CurrentPrice.objects.get(id=1).price) 
 
   if p2 > p1 :
@@ -88,7 +90,7 @@ class Command(BaseCommand):
 
     scheduler.add_job(
       my_job,
-      trigger=CronTrigger(second="*/3"),  # Every 10 seconds
+      trigger=CronTrigger(second="*/2"),  # Every 10 seconds
       id="my_job",  # The `id` assigned to each job MUST be unique
       max_instances=1,
       replace_existing=True,

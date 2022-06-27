@@ -24,6 +24,7 @@
     <link rel="mask-icon" href="https://photo20.ir/images/ov4f7l1ywseqtryvikyl.jpeg" color="#7952b3">
     <link rel="icon" href="https://photo20.ir/images/ov4f7l1ywseqtryvikyl.jpeg">
     <meta name="theme-color" content="#7952b3">
+    {% load  static %}
     
 
     <style>
@@ -126,7 +127,6 @@
     </div>
  
         </form>
-
      
   </header>
   <style>
@@ -158,12 +158,56 @@
         <svg class="bd-placeholder-img" width="25px" height="25px" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/><image xlink:href="https://photo20.ir/images/ov4f7l1ywseqtryvikyl.jpeg"
             x="0" y="0" height="100%" width="100%"  preserveAspectRatio="none"/></svg>
   
-      <span style="font-weight: bold;font-size: large;" >Ballance:{{user.account.balance}}$</span>      <span  style="font-weight: bold;background-color: rgba(184, 135, 11, 0.403); font-size: large; float: right;" >TotalPOT:{{ data }}$</span>
+      <span style="font-weight: bold;font-size: large;" >Ballance:<strong id="balance">{{user.account.balance}}</strong>$</span>      <span style="font-weight: bold;background-color: rgba(184, 135, 11, 0.403); font-size: large; float: right;" >TotalPOT:<strong id="pot">{{ data }}</strong>$</span>
  
 
 
     </a>
   </header>
+  <script>
+    function startLiveUpdate () {
+      const textViewCount = document.getElementById('pot');
+  
+      setInterval(function () {
+        fetch('{% url "pot" %}').then(function (response) {
+          return response.json();
+        }) .then(function (data) {
+          textViewCount.textContent = data.pot;
+        }) .catch(function (error) {
+          console.log(error);
+  
+        });
+      }, 2000);
+    }
+  
+    document.addEventListener('DOMContentLoaded', function () {
+      startLiveUpdate();
+    });
+  
+    </script>
+      <script>
+        function startLiveUpdate2 () {
+          const textViewCount = document.getElementById('balance');
+      
+          setInterval(function () {
+            fetch('{% url "ballance" %}').then(function (response) {
+              return response.json();
+            }) .then(function (data) {
+              textViewCount.textContent = data.balance;
+            }) .catch(function (error) {
+              console.log(error);
+      
+            });
+          }, 2000);
+        }
+      
+        document.addEventListener('DOMContentLoaded', function () {
+          startLiveUpdate2();
+        });
+      
+        </script>
+    
+  
 
 <!-- TradingView Widget BEGIN -->
 <style>
@@ -234,6 +278,11 @@
     {% endfor %}
 {% endif %}
 
+<div style="display:none;" class="alert alert-success" id="alert">
+  <strong>Success! </strong> Bet placed.
+</div>        
+
+
 
 
 
@@ -243,9 +292,10 @@
         <div  class=" jafarii h-100 p-5 text-white  border rounded-3">
           <p style="font-weight: bold;">bet on</p>
 
-          <button style="font-weight: bold; width: 100%;" class="btn btn-outline-light" type="button" data-toggle="modal" data-target="#exampleModal2">GREEN</button>
+          <button style="font-weight: bold; width: 100%;" class="btn btn-outline-light" type="button" data-toggle="modal" data-target="#exampleModal2" >GREEN</button>
         </div>
       </div>
+
   
     
 
@@ -259,7 +309,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <form method="post" id="red" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
           {% csrf_token %}
   
           <div class="mb-4">
@@ -278,11 +328,12 @@
               Submit!
           </button>
       </form>
+
   
         
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="closemodal" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -292,7 +343,7 @@
   <div class=" jafari h-100 p-5 text-white  border rounded-3">
     <p style="font-weight: bold;">bet on</p>
 
-    <button style="font-weight: bold; width: 100%;" class="btn btn-outline-light" type="button" data-toggle="modal" data-target="#exampleModal">RED</button>
+    <button style="font-weight: bold; width: 100%;" class="btn btn-outline-light" type="button" data-toggle="modal" data-target="#exampleModal" >RED</button>
   </div>
   </div>
 </div>
@@ -308,7 +359,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <form action="{% url 'transactions:betgreen' %}" method="post" class=" bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" id="green">
+          <form action="{% url 'transactions:betgreen' %}"  method="post" id="green" class=" bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" id="green">
             {% csrf_token %}
 
 
@@ -341,67 +392,158 @@
       </div>
     </div>
   </div>  
+<hr>
+<div style="display: flex; align-items:center; justify-content:center; font-weight:bold;">Candle LifeTime</div> 
 
-  <Script>
-    function countdown(element, minutes, seconds) {
-// set time for the particular countdown
-var time = minutes*60 + seconds;
-var interval = setInterval(function() {
-    var el = document.getElementById('element');
-    // if the time is 0 then end the counter
-    if(time == 0) {
-        setTimeout(function() {
-            el.innerHTML = "Move on to next candle...";
-        }, 10);
+  <div class="progress">
+    
+    
+    <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated bg-warning " role="progressbar" style="width: 0%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+  </div>
 
-
-        clearInterval(interval);
-
-        setTimeout(function() {
-            countdown('clock', 0, 180);
-        }, 2000);
-    }
-    var minutes = Math.floor( time / 60 );
-    if (minutes < 10) minutes = "0" + minutes;
-    var seconds = time % 60;
-    if (seconds < 10) seconds = "0" + seconds; 
-    var text = minutes + ':' + seconds;
-    el.innerHTML = text;
-    time--;
-}, 1000);
-}
-countdown('clock', 0, 180);
-    </script>
-  
-  <div style="align-items:center ;display: flex; justify-content: center; font-weight: bold; font-size: x-large; background-color:black;" ><h3 style="color: white;">candle ends in : </h3>  &nbsp; <p style=" color:rgb(255, 255, 255); margin-top: 10px;" id="element"> elelelelel</p></div>
-
+  <hr>
 
     <div style=" width: 50%; float: right; ">
-      <div style="background-color:rgba(255, 217, 0, 0.48) ; height: 100%;"  class="h-100 p-5  border rounded-3">
-        <h2 style="font-weight:bold ; font-size: large; color: green;">Greens: {{ greencount }} </h2>
-        {% for user in type %}
-        <p style="color:green ;"> {{ user.account }}</p>
-        {% endfor %}
+      <div style="background-color:rgba(235, 206, 91, 0.382) ; height: 100%;"  class="h-100 p-5  border rounded-3">
+        <h2 style="font-weight:bold ; font-size: large; color: green;">Greens: <strong id="gc">{{ greencount }}</strong> </h2>
+        <script>
+          function startLiveUpdate6 () {
+            const textViewCount = document.getElementById('gc');
+        
+            setInterval(function () {
+              fetch('{% url "count" %}').then(function (response) {
+                return response.json();
+              }) .then(function (data) {
+                textViewCount.textContent = data.gc;
+              }) .catch(function (error) {
+                console.log(error);
+        
+              });
+            }, 3000);
+          }
+        
+          document.addEventListener('DOMContentLoaded', function () {
+            startLiveUpdate6();
+          });
+        
+          </script>
+
+        <p style="color:green ;"><strong ><ul style="color: green; font-weight: bold;" id="gmembers"></ul></strong> </p>
+
+        <script>
+          function startLiveUpdate3 () {
+            const textViewCount = document.getElementById('gmembers');
+
+        
+            setInterval(function () {
+              fetch('{% url "gmember" %}').then(function (response) {
+                return response.json();
+              }) .then(function (data) {    
+
+                    textViewCount.textContent = JSON.stringify(data, null, "\t").replace(/{/g,'').replace(/}/g,'').replace(/:/g,'').replace(/"a"/g,'').replace(/"/g,'').replace('[','').replace(']','')
+                    
+
+                    
+
+                  
+
+                
+                
+              }) .catch(function (error) {
+                console.log(error);
+        
+              });
+            }, 3000);
+            
+           
+          }
+        
+          document.addEventListener('DOMContentLoaded', function () {
+            
+            startLiveUpdate3();
+          });
+        
+          </script>
+      
 
 
       </div>
     </div>
     <div style=" width: 50%;">
-      <div style="background-color: rgba(238, 130, 238, 0.498) ; height: 100%;  " class="h-100 p-5   rounded-3">
-        <h2 style="font-weight:bold ; font-size: large; color:red;">Reds: {{ redcount }} </h2>
+      
+  
+    
+      <div style="background-color: rgba(235, 206, 91, 0.5) ; height: 100%;  " class="h-100 p-5   rounded-3">
+        <h2 style="font-weight:bold ; font-size: large; color:red;">Reds:<strong id="rc">{{ redcount }}</strong>  </h2>
+        <script>
+          function startLiveUpdate5 () {
+            const textViewCount = document.getElementById('rc');
+        
+            setInterval(function () {
+              fetch('{% url "count" %}').then(function (response) {
+                return response.json();
+              }) .then(function (data) {
+                textViewCount.textContent = data.rc;
+              }) .catch(function (error) {
+                console.log(error);
+        
+              });
+            }, 3000);
+          }
+        
+          document.addEventListener('DOMContentLoaded', function () {
+            startLiveUpdate5();
+          });
+        
+          </script>
+      
 
 
-        {% for user in type1 %}
-        <p style="color:rgb(231, 0, 12) ;"> {{ user.account }}</p>
-        {% endfor %}
+        <p style="color:rgb(231, 0, 12) ;"><strong ><ul style="color: red; font-weight: bold;" id="rmembers"></ul></strong> </p>
 
 
       </div>
     </div>
+    <script>
+      function startLiveUpdate4 () {
+        const textViewCount = document.getElementById('rmembers');
+
+    
+        setInterval(function () {
+          fetch('{% url "rmember" %}').then(function (response) {
+            return response.json();
+          }) .then(function (data) {    
+
+                textViewCount.textContent = JSON.stringify(data, null, "\t").replace(/{/g,'').replace(/}/g,'').replace(/:/g,'').replace(/"a"/g,'').replace(/"/g,'').replace('[','').replace(']','')
+                
+
+                
+
+              
+
+            
+            
+          }) .catch(function (error) {
+            console.log(error);
+    
+          });
+        }, 3000);
+        
+       
+      }
+    
+      document.addEventListener('DOMContentLoaded', function () {
+        
+        startLiveUpdate4();
+      });
+    
+      </script>
+
 
 
 
   <footer class="pt-3 mt-4 text-muted border-top">
+  
     &copy; 2022  
   </footer>
 </div>
@@ -417,6 +559,112 @@ countdown('clock', 0, 180);
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+<script>
+  
+const form = document.getElementById('green');
+form.addEventListener("submit",submitHandler);
+
+
+
+function submitHandler(e) {
+    var serializedData = $(this).serialize();
+    e.preventDefault();
+    $.ajax({
+
+        url: '{% url "transactions:betgreen" %}',
+        type: 'POST' , 
+        data: serializedData  ,
+        dataType: 'json',
+        success: function (data) {
+            if (data.msg === 'betgreen') {
+              
+              $("#green").trigger('reset');
+              $('#exampleModal2').modal('hide');
+
+              $('#exampleModal2').modal('dispose');
+              $(".modal-backdrop").remove();
+              $("#alert").fadeTo(2000, 500).slideUp(500, function(){
+    $("#alert").slideUp(500);
+});
+              
+      }  
+      
+    } 
+ }) 
+ 
+ 
+}
+</script>
+<script>
+
+const form2 = document.getElementById('red');
+form2.addEventListener("submit",submitHandler);
+
+
+
+function submitHandler(ee) {
+    var serializedData = $(this).serialize();
+    ee.preventDefault();
+    $.ajax({
+
+
+      url: '{% url "transactions:bet_money" %}',
+
+        type: 'POST' , 
+        data: serializedData  ,
+        dataType: 'json',
+        success: function (data) {
+            if (data.msg === 'betred') {
+              
+              $("#red").trigger('reset');
+              $('#exampleModal').modal('hide');
+
+              $('#exampleModal').modal('dispose');
+              $(".modal-backdrop").remove();
+              $("#alert").fadeTo(2000, 500).slideUp(500, function(){
+    $("#alert").slideUp(500);
+});
+
+
+              
+              
+      }  
+      
+    } 
+ }) 
+ 
+ 
+}
+
+</script>
+
+<script>
+  
+  // Set the width to animate the progress bar
+  // Along with time duration in milliseconds
+  function progressload() {
+
+
+  setInterval(function(){
+
+    $(".progress-bar").animate({
+          width: "100%",
+  }, 180000);
+}, 180000);
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+        
+        progressload();
+      });
+  
+</script>
+
 
       
   </body>

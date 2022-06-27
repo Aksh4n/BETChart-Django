@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path , include
 from django.contrib.auth import views as auth_views
+from django.views.generic import TemplateView
 
 
 
@@ -29,6 +30,7 @@ urlpatterns = [
     path('verification/', include('verify_email.urls')),
     path('contact/', include('contact.urls')),
     path('transactions/', include('transactions.urls')),
+    path('api/',include('api.urls')),
 
 
     

@@ -1,3 +1,5 @@
+{% load static %}
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -117,9 +119,13 @@ label {
      {% for message in messages %} 
       {{message}}
      {% endfor %} 
-    {% endif %}      
+    {% endif %}   
+    
+    
 
-		<form method="post" class="form-signin">
+
+
+		<form  method="post" class="form-signin" id="contact-form">
         {% csrf_token %}
             {{form.as_p}}
             <div class="d-grid gap-2 d-md-flex justify-content-md-start">
@@ -128,6 +134,7 @@ label {
             </div>
 
         </form>
+
         <br>
 
         <footer class="mt-auto text-white-50">
@@ -161,6 +168,31 @@ label {
         </footer>
             
     </div>
-    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script>
+  const form = document.getElementById('contact-form');
+form.addEventListener("submit",submitHandler);
+function submitHandler(e) {
+    var serializedData = $(this).serialize();
+    e.preventDefault();
+    $.ajax({
+        type: 'POST' , 
+        data: serializedData  ,
+        dataType: 'json',
+        success: function (data) {
+            if (data.msg === 'Success') {
+                alert('We got your message! we will get in touch with you ASAP');
+                $("#contact-form").trigger('reset');
+      }
+    }
+ })
+}
+
+</script>
+
+
   </body>
 </html>

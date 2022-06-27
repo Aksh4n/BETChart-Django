@@ -92,6 +92,7 @@ class GreenMember(models.Model):
     )
 
     g = models.PositiveSmallIntegerField(default=0, null=True)
+    a = models.CharField(max_length=200 , null=True)
 
 
     def __str__(self):
@@ -108,7 +109,7 @@ def add_green_member(sender, instance, created, **kwargs):
             
 
 
-            GreenMember.objects.create(account=instance.account.user)
+            GreenMember.objects.create(account=instance.account.user , a=instance.account.user)
 
 post_save.connect(add_green_member, sender=Transaction)
 
@@ -120,6 +121,8 @@ class RedMember(models.Model):
         on_delete=models.CASCADE,
     )
     g = models.PositiveSmallIntegerField(default=0 , null=True)
+    a = models.CharField(max_length=200 , null=True)
+
 
 
     def __str__(self):
@@ -136,7 +139,7 @@ def add_red_member(sender, instance, created, **kwargs):
             
 
 
-            RedMember.objects.create(account=instance.account.user)
+            RedMember.objects.create(account=instance.account.user , a=instance.account.user)
 
 post_save.connect(add_red_member, sender=Transaction)
 
@@ -178,25 +181,39 @@ def e_bet(sender, instance, created, **kwargs):
     if created:
 
         if candlecolor1 == 1:
-            q = prize / greencount 
-            for user in greenmembers1 :
-                user.account.account.balance += q 
-            user.account.account.save(update_fields=['balance'])   
-            GreenMember.objects.all().delete()
-            RedMember.objects.all().delete()
-            Pot.objects.update(pot=5)
-            GreenMember.objects.create(account=sarsh)
-            RedMember.objects.create(account=sarsh) 
+            if greencount > 0:
+
+                q = prize / greencount 
+                for user in greenmembers1 :
+                    user.account.account.balance += q 
+                user.account.account.save(update_fields=['balance'])   
+                GreenMember.objects.all().delete()
+                RedMember.objects.all().delete()
+                Pot.objects.update(pot=0)
+                MemberCount.objects.update(gc=0 , rc=0)
+            elif greencount == 0 :
+                GreenMember.objects.all().delete()
+                RedMember.objects.all().delete()
+                Pot.objects.update(pot=0)
+                MemberCount.objects.update(gc=0 , rc=0)
+
         elif candlecolor1 == 2 :
-            q = prize / redcount 
-            for user in redmembers1 :
-                user.account.account.balance += q 
-            user.account.account.save(update_fields=['balance'])   
-            GreenMember.objects.all().delete()
-            RedMember.objects.all().delete()
-            Pot.objects.update(pot=5) 
-            GreenMember.objects.create(account=sarsh)
-            RedMember.objects.create(account=sarsh)
+            if redcount > 0 :
+
+                q = prize / redcount 
+                for user in redmembers1 :
+                    user.account.account.balance += q 
+                user.account.account.save(update_fields=['balance'])   
+                GreenMember.objects.all().delete()
+                RedMember.objects.all().delete()
+                Pot.objects.update(pot=0) 
+                MemberCount.objects.update(gc=0 , rc=0)
+            elif redcount == 0 :
+                GreenMember.objects.all().delete()
+                RedMember.objects.all().delete()
+                Pot.objects.update(pot=0)
+                MemberCount.objects.update(gc=0 , rc=0) 
+
 
 
 
@@ -204,5 +221,26 @@ def e_bet(sender, instance, created, **kwargs):
         
 post_save.connect(e_bet, sender=CandleColor)
 
+
+
+
+
+
+class MemberCount(models.Model):
+    gc = models.IntegerField(default=0 , null=True)
+    rc = models.IntegerField(default=0 , null=True)
+
+def update_count(sender, instance, created, **kwargs):
+
+    
+    if created:
+
+
+        a = GreenMember.objects.all().count()
+        b = RedMember.objects.all().count()
+        MemberCount.objects.update(gc=a , rc=b)
+
+post_save.connect(update_count, sender=GreenMember)
+post_save.connect(update_count, sender=RedMember)
 
 

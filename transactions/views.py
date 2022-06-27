@@ -6,6 +6,8 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import CreateView, ListView
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+
 
 from transactions.constants import DEPOSIT, WITHDRAWAL, BETRED, BETGREEN
 from transactions.forms import (
@@ -142,16 +144,16 @@ class TransactionCreateMixinBet(LoginRequiredMixin, CreateView):
         return kwargs
 
     def get_context_data(self, **kwargs):
-        j =  Pot.objects.get(id=1).pot - 5
-        redcount = RedMember.objects.all().count() - 1
-        greencount = GreenMember.objects.all().count() - 1
+        j =  Pot.objects.get(id=1).pot 
+        redcount = RedMember.objects.all().count() 
+        greencount = GreenMember.objects.all().count() 
 
         context = super().get_context_data(**kwargs)
         context.update({
             'title': self.title ,
             'data' : j  ,
-            'type': GreenMember.objects.filter(g=0).exclude(account_id=1) ,
-            'type1': RedMember.objects.filter(g=0).exclude(account_id=1) ,
+            'type': GreenMember.objects.filter(g=0) ,
+            'type1': RedMember.objects.filter(g=0) ,
             'greencount': greencount  ,
             'redcount': redcount  ,
 
@@ -159,6 +161,10 @@ class TransactionCreateMixinBet(LoginRequiredMixin, CreateView):
         })
 
         return context
+
+
+
+        
 
 
 class BetMoneyView(TransactionCreateMixinBet):
@@ -184,11 +190,12 @@ class BetMoneyView(TransactionCreateMixinBet):
         self.request.user.account.balance -= form.cleaned_data.get('amount')
         self.request.user.account.save(update_fields=['balance'])
         
-
-
+        form.save()
+        data = {
+                'msg': 'betred',
+            }
+        return JsonResponse(data)        
         
-
-        return super().form_valid(form)
 
         #GREEN
 
@@ -210,6 +217,8 @@ class BetMoneyView2(TransactionCreateMixinBet):
         return initial
 
     def form_valid(self, form):
+
+
         amount = form.cleaned_data.get('amount')
 
 
@@ -217,10 +226,11 @@ class BetMoneyView2(TransactionCreateMixinBet):
         self.request.user.account.save(update_fields=['balance'])
         
 
-
-        
-
-        return super().form_valid(form)
+        form.save()
+        data = {
+                    'msg': 'betgreen',
+                }
+        return JsonResponse(data)        
 
 
 
