@@ -24,7 +24,7 @@ def candle_color():
   import time
 
   p1 = float(CurrentPrice.objects.get(id=1).price)
-  time.sleep(179)
+  time.sleep(178)
   p2 = float(CurrentPrice.objects.get(id=1).price) 
 
   if p2 > p1 :
